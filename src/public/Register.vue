@@ -1,5 +1,5 @@
 <template>
-  <form class="form-signin">
+  <form class="form-signin" @submit.prevent="submit">
     <h1 class="h3 mb-3 font-weight-normal">Please register</h1>
 
     <label for="first_name" class="sr-only">First Name</label>
@@ -9,6 +9,7 @@
       class="form-control"
       placeholder="First Name"
       required
+      v-model="firstName"
     />
 
     <label for="last_name" class="sr-only">Last Name</label>
@@ -18,6 +19,7 @@
       class="form-control"
       placeholder="Last Name"
       required
+      v-model="lastName"
     />
 
     <label for="inputEmail" class="sr-only">Email address</label>
@@ -27,7 +29,7 @@
       class="form-control"
       placeholder="Email address"
       required
-      autofocus
+      v-model="email"
     />
 
     <label for="inputPassword" class="sr-only">Password</label>
@@ -37,6 +39,7 @@
       class="form-control"
       placeholder="Password"
       required
+      v-model="password"
     />
 
     <label for="passwordConfirm" class="sr-only">Password Confirmation</label>
@@ -46,6 +49,7 @@
       class="form-control"
       placeholder="Password Confirmation"
       required
+      v-model="passwordConfirm"
     />
 
     <button class="btn btn-lg btn-primary btn-block" type="submit">
@@ -55,8 +59,36 @@
 </template>
 
 <script>
+import { ref } from "vue";
+
 export default {
   name: "Register",
+  setup() {
+    const firstName = ref("");
+    const lastName = ref("");
+    const email = ref("");
+    const password = ref("");
+    const passwordConfirm = ref("");
+
+    const submit = () => {
+      console.log({
+        first_name: firstName.value,
+        last_name: lastName.value,
+        email: email.value,
+      });
+    };
+
+    // following is the short hand of key value as both are the same therefore TS
+    // allow us to write only one separating comas
+    return {
+      firstName,
+      lastName,
+      email,
+      password,
+      passwordConfirm,
+      submit,
+    };
+  },
 };
 </script>
 
