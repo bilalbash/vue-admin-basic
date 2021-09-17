@@ -60,6 +60,7 @@
 
 <script>
 import { ref } from "vue";
+import axios from "axios";
 
 export default {
   name: "Register",
@@ -70,12 +71,15 @@ export default {
     const password = ref("");
     const passwordConfirm = ref("");
 
-    const submit = () => {
-      console.log({
+    const submit = async () => {
+      const response = await axios.post("http://localhost:8000/api/register", {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
+        password: password.value,
+        password_confirm: passwordConfirm.value,
       });
+      console.log(response);
     };
 
     // following is the short hand of key value as both are the same therefore TS
