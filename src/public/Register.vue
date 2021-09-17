@@ -61,6 +61,7 @@
 <script>
 import { ref } from "vue";
 import axios from "axios";
+import { useRouter } from "vue-router";
 
 export default {
   name: "Register",
@@ -70,16 +71,18 @@ export default {
     const email = ref("");
     const password = ref("");
     const passwordConfirm = ref("");
+    const router = useRouter();
 
     const submit = async () => {
-      const response = await axios.post("http://localhost:8000/api/register", {
+      await axios.post("http://localhost:8000/api/register", {
         first_name: firstName.value,
         last_name: lastName.value,
         email: email.value,
         password: password.value,
         password_confirm: passwordConfirm.value,
       });
-      console.log(response);
+
+      await router.push("/login");
     };
 
     // following is the short hand of key value as both are the same therefore TS
