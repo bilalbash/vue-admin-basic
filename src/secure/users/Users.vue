@@ -33,10 +33,10 @@
 
   <nav>
     <ul class="pagination">
-      <li class="page-item">
+      <li class="page-item" v-bind:class="{ disabled: isPrev }">
         <a class="page-link" href="javascript:void(0)" @click="prev">Prev</a>
       </li>
-      <li class="page-item">
+      <li class="page-item" v-bind:class="{ disabled: isNext }">
         <a class="page-link" href="javascript:void(0)" @click="next">Next</a>
       </li>
     </ul>
@@ -54,11 +54,15 @@ export default {
     const users = ref([]);
     const page = ref(1);
     const lastPage = ref(0);
+    const isPrev = ref(false);
+    const isNext = ref(false);
 
     const load = async () => {
       const response = await axios.get(`users?page=${page.value}`);
       users.value = response.data.data;
       lastPage.value = response.data.meta.last_page;
+      isPrev.value = page.value === 1 ? true : false;
+      isNext.value = page.value === lastPage.value ? true : false;
     };
 
     const next = async () => {
@@ -87,6 +91,8 @@ export default {
       next,
       prev,
       deleteUser,
+      isPrev,
+      isNext,
     };
   },
 };
