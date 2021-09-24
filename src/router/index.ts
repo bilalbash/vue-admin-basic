@@ -9,11 +9,12 @@ const routes: Array<RouteRecordRaw> = [
   { path: "/register", component: Register },
   { path: "/login", component: Login },
   {
-    path: "/",
+    path: "",
     component: Secure,
     children: [
-      { path: "", component: Dashboard },
-      { path: "users", component: Users },
+      { path: "", redirect: "/dashboard" },
+      { path: "/dashboard", component: Dashboard },
+      { path: "/users", component: Users },
     ],
   },
 ];
