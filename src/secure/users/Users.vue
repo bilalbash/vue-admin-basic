@@ -24,9 +24,9 @@
           <td>{{ user.role.name }}</td>
           <td>
             <div class="btn-group mr-2">
-              <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary">
+              <router-link :to="`/users/${user.id}/edit`" class="btn btn-sm btn-outline-secondary">
                 Edit
-              </a>
+              </router-link>
               <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" @click="deleteUser(user.id)">
                 Delete
               </a>
