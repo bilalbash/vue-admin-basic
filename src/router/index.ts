@@ -8,6 +8,7 @@ import UsersCreate from "@/secure/users/UsersCreate.vue";
 import UsersEdit from "@/secure/users/UsersEdit.vue";
 import Roles from "@/secure/roles/Roles.vue";
 import RolesCreate from "@/secure/roles/RolesCreate.vue";
+import RolesEdit from "@/secure/roles/RolesEdit.vue";
 
 const routes: Array<RouteRecordRaw> = [
   { path: "/register", component: Register },
@@ -23,6 +24,7 @@ const routes: Array<RouteRecordRaw> = [
       { path: "/users/:id/edit", component: UsersEdit },
       { path: "/roles", component: Roles },
       { path: "/roles/create", component: RolesCreate },
+      { path: "/roles/:id/edit", component: RolesEdit },
     ],
   },
 ];
