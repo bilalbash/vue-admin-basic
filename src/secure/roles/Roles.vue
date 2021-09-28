@@ -1,4 +1,10 @@
 <template>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <router-link to="/roles/create" class="btn btn-sm btn-outline-secondary">Add</router-link>
+    </div>
+  </div>
+
   <div class="table-responsive">
     <table class="table table-striped table-sm">
       <thead>
@@ -14,15 +20,10 @@
           <td>{{ role.name }}</td>
           <td>
             <div class="btn-group mr-2">
-              <router-link
-                :to="`/roles/${role.id}/edit`"
-                class="btn btn-sm btn-outline-secondary">
+              <router-link :to="`/roles/${role.id}/edit`" class="btn btn-sm btn-outline-secondary">
                 Edit
               </router-link>
-              <a
-                href="javascript:void(0)"
-                class="btn btn-sm btn-outline-secondary"
-                @click="delRole(role.id)">
+              <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" @click="deleteRole(role.id)">
                 Delete
               </a>
             </div>
@@ -48,7 +49,7 @@ export default {
       roles.value = response.data.data;
     });
 
-    const delRole = async (id: number) => {
+    const deleteRole = async (id: number) => {
       if (confirm("r u sure?")) {
         await axios.delete(`roles/${id}`);
         roles.value = roles.value.filter((e: Entity) => e.id !== id);
@@ -57,7 +58,7 @@ export default {
 
     return {
       roles,
-      delRole,
+      deleteRole,
     };
   },
 };
