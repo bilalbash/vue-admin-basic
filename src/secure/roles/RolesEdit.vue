@@ -80,14 +80,14 @@ export default {
       await router.push("/roles");
     };
 
-    const checked = (id: number) => selected.value.some(s => s === id)
+    const checked = (id: number) => selected.value.some((s) => s === id);
 
     return {
       name,
       permissions,
       select,
       submit,
-      checked
+      checked,
     };
   },
 };

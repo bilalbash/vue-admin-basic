@@ -24,10 +24,15 @@
           <td>{{ user.role.name }}</td>
           <td>
             <div class="btn-group mr-2">
-              <router-link :to="`/users/${user.id}/edit`" class="btn btn-sm btn-outline-secondary">
+              <router-link
+                :to="`/users/${user.id}/edit`"
+                class="btn btn-sm btn-outline-secondary">
                 Edit
               </router-link>
-              <a href="javascript:void(0)" class="btn btn-sm btn-outline-secondary" @click="deleteUser(user.id)">
+              <a
+                href="javascript:void(0)"
+                class="btn btn-sm btn-outline-secondary"
+                @click="deleteUser(user.id)">
                 Delete
               </a>
             </div>
@@ -37,51 +42,30 @@
     </table>
   </div>
 
-  <nav>
-    <ul class="pagination">
-      <li class="page-item" v-bind:class="{ disabled: isPrev }">
-        <a class="page-link" href="javascript:void(0)" @click="prev">Prev</a>
-      </li>
-      <li class="page-item" v-bind:class="{ disabled: isNext }">
-        <a class="page-link" href="javascript:void(0)" @click="next">Next</a>
-      </li>
-    </ul>
-  </nav>
+  <Paginator :last-page="lastPage" @page-changed="load($event)" />
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { Entity } from "@/interfaces/entity";
+import Paginator from "@/secure/components/Paginator.vue";
 
 export default {
   name: "Users",
+  components: { Paginator },
   setup() {
     const users = ref([]);
-    const page = ref(1);
     const lastPage = ref(0);
-    const isPrev = ref(false);
-    const isNext = ref(false);
 
-    const load = async () => {
-      const response = await axios.get(`users?page=${page.value}`);
+    const load = async (page = 1) => {
+      const response = await axios.get(`users?page=${page}`);
+
       users.value = response.data.data;
       lastPage.value = response.data.meta.last_page;
-      isPrev.value = page.value === 1 ? true : false;
-      isNext.value = page.value === lastPage.value ? true : false;
     };
 
-    const next = async () => {
-      if (page.value === lastPage.value) return;
-      page.value++;
-      await load();
-    };
-
-    const prev = async () => {
-      if (page.value === 1) return;
-      page.value--;
-      await load();
-    };
+    onMounted(load);
 
     const deleteUser = async (id: number) => {
       if (confirm("Are u sure to del?")) {
@@ -90,15 +74,11 @@ export default {
       }
     };
 
-    onMounted(load);
-
     return {
       users,
-      next,
-      prev,
       deleteUser,
-      isPrev,
-      isNext,
+      lastPage,
+      load,
     };
   },
 };

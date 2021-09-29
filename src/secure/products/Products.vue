@@ -22,13 +22,15 @@
             <div class="btn-group mr-2">
               <router-link
                 :to="`/products/${product.id}/edit`"
-                class="btn btn-sm btn-outline-secondary">
+                class="btn btn-sm btn-outline-secondary"
+              >
                 Edit
               </router-link>
               <a
                 href="javascript:void(0)"
                 class="btn btn-sm btn-outline-secondary"
-                @click="deleteProduct(product.id)">
+                @click="deleteProduct(product.id)"
+              >
                 Delete
               </a>
             </div>
@@ -37,22 +39,31 @@
       </tbody>
     </table>
   </div>
+
+  <Paginator :last-page="lastPage" @page-changed="load($event)" />
 </template>
 
 <script lang="ts">
 import { ref, onMounted } from "vue";
 import axios from "axios";
 import { Entity } from "@/interfaces/entity";
+import Paginator from "@/secure/components/Paginator.vue";
 
 export default {
   name: "Products",
+  components: { Paginator },
   setup() {
     const products = ref([]);
+    const lastPage = ref(0);
 
-    onMounted(async () => {
-      const response = await axios.get("products");
+    const load = async (page = 1) => {
+      const response = await axios.get(`products?page=${page}`);
+
       products.value = response.data.data;
-    });
+      lastPage.value = response.data.meta.last_page;
+    };
+
+    onMounted(load);
 
     const deleteProduct = async (id: number) => {
       if (confirm("Are u sure to del?")) {
@@ -63,7 +74,9 @@ export default {
 
     return {
       products,
+      lastPage,
       deleteProduct,
+      load,
     };
   },
 };
