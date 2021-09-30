@@ -1,0 +1,70 @@
+<template>
+  <form @submit.prevent="submit">
+    <div class="form-group">
+      <label for="">Title</label>
+      <input type="text" class="form-control" name="title" v-model="title" />
+    </div>
+
+    <div class="form-group">
+      <label for="">Description</label>
+      <textarea
+        name="description"
+        cols="30"
+        rows="10"
+        class="form-control"
+        v-model="description"
+      >
+      </textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="">Image</label>
+      <input type="text" class="form-control" name="Image" v-model="image" />
+    </div>
+
+    <div class="form-group">
+      <label for="">Price</label>
+      <input type="number" class="form-control" name="price" v-model="price" />
+    </div>
+
+    <button class="btn btn-outline-secondary">Save</button>
+  </form>
+</template>
+
+<script>
+import { ref } from "vue";
+import axios from "axios";
+import { useRouter } from "vue-router";
+
+export default {
+  name: "ProductsCreate",
+  setup() {
+    const title = ref("");
+    const description = ref("");
+    const image = ref("");
+    const price = ref(0);
+    const router = useRouter();
+
+    const submit = async () => {
+      const response = await axios.post("products", {
+        title: title.value,
+        description: description.value,
+        image: image.value,
+        price: price.value,
+      });
+
+      await router.push("/products");
+    };
+
+    return {
+      title,
+      description,
+      image,
+      price,
+      submit,
+    };
+  },
+};
+</script>
+
+<style lang="scss" scoped></style>
