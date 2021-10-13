@@ -11,12 +11,12 @@ import axios from "axios";
 export default {
   name: "ImageUpload",
   emits: ["file-uploaded"],
-  setup(_, context) {
+  setup(_: any, context: any) {
     const upload = async (files: FileList) => {
       const file = files.item(0);
 
       const data = new FormData();
-      data.append("image", file);
+      data.append("image", file !== null ? file : "");
 
       const response = await axios.post("upload", data);
       context.emit("file-uploaded", response.data.url);
