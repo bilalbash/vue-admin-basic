@@ -3,7 +3,7 @@ import { Entity } from "@/interfaces/entity";
 export class OrderItem implements Entity {
   id: number;
   product_title: string;
-  price: numner;
+  price: number;
   quantity: number;
 
   constructor(id = 0, product_title = "", price = 0, quantity = 0) {
